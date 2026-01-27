@@ -1,81 +1,95 @@
+import { Link, useNavigate } from "react-router-dom";
 import "./Sidebar.css";
 
 const Sidebar = ({ collapsed }) => {
+  const navigate = useNavigate();
+
   return (
     <nav className={collapsed ? "menu-bar collapsed" : "menu-bar"}>
-      <ul class="menu">
+      <ul className="menu">
         <li>
-          <a href="pages/users.html">
-            <span class="material-icons">person</span> User
-          </a>
+          <Link to="/users">
+            <span className="material-icons">person</span>
+            User
+          </Link>
         </li>
 
-        <li class="dropdown has-submenu">
-          <a>
-            {" "}
-            <span class="material-icons">inventory_2</span> Inventory{" "}
-          </a>
-          <ul class="dropdown-menu">
+        {/* INVENTORY (HOVER) */}
+        <li className="dropdown has-submenu">
+          <button type="button" className="menu-btn menu-link">
+            <span className="material-icons">inventory_2</span>
+            Inventory
+          </button>
+
+          <ul className="dropdown-menu">
             <li>
-              <a href="pages/inventory.html">
-                <span class="material-icons">inventory</span> Inventory
-              </a>
+              <Link to="/inventory">
+                <span className="material-icons">inventory</span> Inventory
+              </Link>
             </li>
             <li>
-              <a href="pages/accessory.html">
-                <span class="material-icons">headphones</span> Accessories
-              </a>
+              <Link to="/accessory">
+                <span className="material-icons">headphones</span> Accessories
+              </Link>
             </li>
             <li>
-              <a href="pages/peripheral.html">
-                <span class="material-icons">keyboard</span> Peripherals
-              </a>
+              <Link to="/peripheral">
+                <span className="material-icons">keyboard</span> Peripherals
+              </Link>
             </li>
           </ul>
         </li>
 
         <li>
-          <a href="pages/issueItem.html">
-            <span class="material-icons">assignment_ind</span> Issue To
-          </a>
+          <Link to="/issue-item">
+            <span className="material-icons">assignment_ind</span> Issue To
+          </Link>
         </li>
 
         <li>
-          <a href="pages/repair.html">
-            <span class="material-icons">build</span> Repair
-          </a>
+          <Link to="/repair">
+            <span className="material-icons">build</span> Repair
+          </Link>
         </li>
 
         <li>
-          <a href="pages/upgrade.html">
-            <span class="material-icons">upgrade</span> Upgrade
-          </a>
+          <Link to="/upgrade">
+            <span className="material-icons">upgrade</span> Upgrade
+          </Link>
         </li>
 
         <li>
-          <a href="pages/report.html">
-            <span class="material-icons">bar_chart</span> Report
-          </a>
+          <Link to="/report">
+            <span className="material-icons">bar_chart</span> Report
+          </Link>
         </li>
+
         <li>
-          <a href="test.html">
-            <span class="material-icons">bar_chart</span> Test Page
-          </a>
+          <Link to="/test">
+            <span className="material-icons">bar_chart</span> Test Page
+          </Link>
         </li>
       </ul>
-      <div class="user-details">
-        <a href="#" id="userToggle">
-          <span class="material-icons">account_circle</span>
+
+      {/* USER DETAILS (HOVER) */}
+      <div className="user-details">
+        <button className="user-toggle">
+          <span className="material-icons">account_circle</span>
           John Doe
-        </a>
-        <div class="user-panel" id="userPanel">
-          <button onclick="location.href='pages/profile.html'">
-            <span class="material-icons">person</span> Profile
+        </button>
+
+        <div className="user-panel">
+          <button onClick={() => navigate("/profile")}>
+            <span className="material-icons">person</span> Profile
           </button>
+
           <button>
-            <span class="material-icons">image</span> Change Image
+            <span className="material-icons">image</span> Change Image
           </button>
-          <button><span class="material-icons">logout</span> Logout</button>
+
+          <button>
+            <span className="material-icons">logout</span> Logout
+          </button>
         </div>
       </div>
     </nav>

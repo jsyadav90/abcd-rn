@@ -1,8 +1,8 @@
 header {
   display: flex;
   justify-content: space-between;
-  height: 60px;
-  padding: 0 16px;
+  height: var(--header-height);
+  padding: 0 1rem;
   background: #111827;
   color: #FFA718;
 }
@@ -39,8 +39,8 @@ header {
   position: relative;
   display: flex;
   align-items: center;
-  width: 320px;
-  max-width: 320px;
+  width: 20rem;
+  max-width: 20rem;
   background: #fff;
   border: 1px solid #d0d5dd;
   border-radius: 8px;
@@ -53,7 +53,7 @@ header {
   border: none;
   outline: none;
   background: transparent;
-  font-size: 14px;
+  font-size: 1rem;
   color: #344054;
 }
 .search-container input::placeholder {
@@ -83,8 +83,11 @@ header {
 
 /* Optional small-screen search icon */
 .search-icon {
-  display: none;
   font-size: 1.3rem;
   margin-left: 1rem;
   cursor: pointer;
+}
+
+.search-icon-out{
+  display: none;
 }

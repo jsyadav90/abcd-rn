@@ -1,31 +1,46 @@
+import { Link } from "react-router-dom";
 import "./Header.css";
 
 const Header = ({ onToggleSidebar }) => {
   return (
     <header>
       <div className="header-left">
-        <button className="hamburger" onClick={onToggleSidebar}>&#9776;</button>
-        <div className="logo"><a href="/">ABCD</a></div>
+        <button
+          className="hamburger"
+          onClick={onToggleSidebar}
+          aria-label="Toggle sidebar"
+        >
+          &#9776;
+        </button>
+
+        <div className="logo">
+          <Link to="/">ABCD</Link>
+        </div>
       </div>
 
-      <div class="header-right">
-        <div class="search-container" id="searchBox" role="search">
+      <div className="header-right">
+        <div className="search-container" id="searchBox" role="search">
           <input
             type="text"
             placeholder="Search the application..."
             aria-label="Search the application"
           />
-          <div class="search-icon-container">
+
+          <div className="search-icon-container">
             <button
               type="button"
               id="searchToggle"
-              class="material-icons search-icon"
+              className="material-icons search-icon"
+              aria-label="Search"
             >
               search
             </button>
           </div>
         </div>
-        <span class="search-icon">&#128269;</span>
+
+        <span className="search-icon-out" aria-hidden="true">
+          &#128269;
+        </span>
       </div>
     </header>
   );
