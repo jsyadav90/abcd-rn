@@ -1,0 +1,537 @@
+/* ==========================================================
+   1. INVENTORY DASHBOARD (Main Container)
+   ========================================================== */
+.inventory-dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  width: 100%;
+  background: #f5f6fa;
+}
+
+/* ==========================================================
+   2. SUMMARY SECTION (Top Cards)
+   ========================================================== */
+.summary-section {
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  padding: 1rem;
+}
+.summary-section::-webkit-scrollbar { display: none; }
+
+.summary-card {
+  min-width: 200px;
+  flex-shrink: 0;
+  border-radius: 10px;
+  padding: 1rem;
+  background: #fff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  transition: transform 0.3s ease;
+  -webkit-transition: transform 0.3s ease;
+  -moz-transition: transform 0.3s ease;
+  -ms-transition: transform 0.3s ease;
+  -o-transition: transform 0.3s ease;
+}
+.summary-card:hover { transform: translateY(-4px); }
+
+/* ==========================================================
+   3. SCHOOL SECTION (User Info, School Info, Academic Year)
+   ========================================================== */
+
+.school-panel {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #fff;
+  border-radius: 12px;
+  padding: 1.5rem 2rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+/* --- LEFT PANEL --- */
+.panel-left {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+/* --- PROFILE CARD --- */
+.profile-card h3 {
+  margin-bottom: 0.8rem;
+  color: #222;
+}
+
+.profile-details {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: linear-gradient(135deg, #e8f0ff, #ffffff);
+  border-radius: 10px;
+  padding: 1rem 1.5rem;
+  border: 1px solid #dce5f5;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+}
+
+.profile-avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 2px solid #007bff;
+  object-fit: cover;
+}
+
+.profile-meta h4 {
+  margin: 0;
+  font-size: 1.1rem;
+  color: #007bff;
+  font-weight: 700;
+}
+.profile-meta p {
+  margin: 2px 0;
+  font-size: 0.9rem;
+  color: #444;
+}
+
+/* --- SCHOOL SETTINGS --- */
+.school-settings {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 1rem;
+}
+
+.branch-selector,
+.year-selector {
+  display: flex;
+  flex-direction: column;
+}
+
+.branch-selector h3,
+.year-selector h3 {
+  font-size: 1rem;
+  margin-bottom: 0.4rem;
+  color: #333;
+}
+
+.branch-selector select,
+.year-selector select {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  color: #333;
+  background-color: #f9f9f9;
+  transition: border 0.3s ease;
+}
+
+.branch-selector select:focus,
+.year-selector select:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+.academic-controls {
+  display: flex;
+  align-items: flex-end;
+  gap: 1rem;
+  width: 100%;
+}
+
+/* --- APPLY BUTTON --- */
+.btn-apply {
+  padding: 0.6rem 1.2rem;
+  background: #007bff;
+  border: none;
+  border-radius: 6px;
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+.btn-apply:hover {
+  background: #0056b3;
+}
+
+/* --- RIGHT PANEL (Sync Info) --- */
+.panel-right {
+  text-align: right;
+}
+
+.sync-panel {
+  display: flex;
+  gap: 2rem;
+  border-left: 2px solid #eaeaea;
+  padding-left: 1rem;
+  background: #fff;
+  border-radius: 10px;
+  text-align: center;
+  color: #555;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+}
+
+.sync-status p {
+  margin: 0.3rem 0;
+  font-size: 0.9rem;
+}
+
+/* --- SYNC BUTTON --- */
+.btn-sync {
+  margin-top: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: #28a745;
+  border: none;
+  color: #fff;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+.btn-sync:hover {
+  background: #218838;
+}
+.btn-sync:active {
+  transform: scale(0.96);
+}
+.btn-sync i {
+  font-size: 0.9rem;
+}
+
+/* ==========================================================
+   4. QUICK ACTIONS SECTION
+   ========================================================== */
+.actions-section {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+.action-btn {
+  background: #fff;
+  border: 1px solid #ddd;
+  padding: 0.7rem 1.4rem;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  transition: all 0.2s;
+}
+.action-btn:hover { transform: translateY(-2px); }
+.action-btn.primary { background: #007bff; color: #fff; border: none; }
+
+/* ==========================================================
+   5. OVERVIEW GRID (Cards + Chart)
+   ========================================================== */
+.overview-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+}
+.overview-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 1.2rem 1.5rem;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+}
+.overview-card h3 {
+  margin-bottom: 0.8rem;
+  font-size: 1.05rem;
+}
+.overview-card ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1rem;
+}
+.overview-card li {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.4rem 0;
+  border-bottom: 1px solid #eee;
+}
+.status {
+  padding: 0.2rem 0.6rem;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  color: #fff;
+}
+.status.available { background: #28a745; }
+.status.assigned { background: #007bff; }
+.status.faulty { background: #dc3545; }
+
+.overview-card a {
+  text-decoration: none;
+  color: #007bff;
+  font-size: 0.9rem;
+}
+.chart-card canvas {
+  width: 100%;
+  height: 180px;
+}
+
+/* ==========================================================
+   6. ALERTS & WARNINGS SECTION
+   ========================================================== */
+.alerts-section {
+  background: #fff;
+  border-radius: 12px;
+  padding: 1.2rem 1.5rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+.alerts-section h3 {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.2rem;
+  color: #dc3545;
+  margin-bottom: 1rem;
+}
+.alerts-section i { font-size: 1.3rem; }
+
+.alerts-table-container {
+  max-height: 230px;
+  overflow-y: auto;
+  border-radius: 8px;
+  border: 1px solid #e5e5e5;
+}
+.alerts-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+.alerts-table th,
+.alerts-table td {
+  padding: 0.7rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid #f0f0f0;
+}
+.alerts-table th {
+  background: #f9fafb;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+.alerts-table tbody tr:hover { background: #f8faff; }
+
+/* --- TAG COLORS --- */
+.tag {
+  display: inline-block;
+  padding: 0.25rem 0.6rem;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  color: #fff;
+}
+.tag.info { background: #17a2b8; }
+.tag.warning { background: #ffc107; color: #333; }
+.tag.danger { background: #fd7e14; }
+.tag.critical { background: #dc3545; }
+
+/* --- STATUS COLORS (Alerts) --- */
+.status.pending { background: #ffc107; color: #333; }
+.status.active { background: #007bff; }
+.status.resolved { background: #28a745; }
+.status.critical { background: #dc3545; }
+
+/* --- SCROLLBAR --- */
+.alerts-table-container::-webkit-scrollbar {
+  height: 8px;
+  width: 8px;
+}
+.alerts-table-container::-webkit-scrollbar-thumb {
+  background-color: #ccc;
+  border-radius: 4px;
+}
+
+/* --- ANIMATION (Flash Effect) --- */
+@keyframes flash {
+  from { background-color: #fff7e6; }
+  to { background-color: transparent; }
+}
+.flash { animation: flash 1s ease-in-out; }
+
+/* ==========================================================
+   7. MEDIA QUERIES
+   ========================================================== */
+/* ==========================================================
+   7. RESPONSIVE DESIGN (Real-World Breakpoints)
+   ========================================================== */
+
+   
+
+/*! ===== LARGE SCREENS (≤ 1280px) ===== */
+@media (max-width: 1280px) {
+  .panel-left,.panel-right,
+  .sync-panel {
+    width: 100%;
+    justify-content: center;
+  }
+
+}
+
+
+
+
+/*! ===== LARGE SCREENS (≤ 1200px) ===== */
+@media (max-width: 1200px) {
+  .inventory-dashboard {
+    padding: 1.25rem;
+  }
+
+  .school-panel {
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 1.25rem;
+  }
+
+  .panel-left,
+  .panel-right,.sync-panel {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .panel-right{
+    display: flex;
+  }
+  .school-settings {
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .academic-controls {
+    flex-direction: row;
+    width: 100%;
+  }
+}
+
+/*! ===== MEDIUM DEVICES (TABLETS ≤ 992px) ===== */
+@media (max-width: 992px) {
+  .school-panel {
+    /* flex-direction: column; */
+    align-items: stretch;
+    padding: 1rem;
+  }
+
+  .panel-left {
+    align-items: center;
+    text-align: center;
+  }
+
+  .profile-details {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .panel-right {
+    text-align: left;
+    border-top: 1px solid #eee;
+    padding-top: 1rem;
+  }
+
+  .sync-panel {
+    border-left: none;
+    padding-left: 0;
+    flex-wrap: wrap;
+  }
+
+  .summary-section {
+    gap: 0.75rem;
+    padding: 0.75rem;
+  }
+
+  .overview-grid {
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  }
+}
+
+/*! ===== SMALL DEVICES (PHONES ≤ 768px) ===== */
+@media (max-width: 768px) {
+  .inventory-dashboard {
+    padding: 1rem;
+    gap: 1rem;
+  }
+
+  .profile-details {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .profile-avatar {
+    width: 70px;
+    height: 70px;
+  }
+
+  .school-panel select,
+  .btn-apply,
+  .btn-sync {
+    width: 100%;
+  }
+
+  .academic-controls {
+    width: 100%;
+     flex-direction: column;
+  }
+.year-selector{
+  width: 100%;
+}
+ 
+
+
+
+  .overview-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/*! ===== EXTRA SMALL DEVICES (≤ 576px) ===== */
+@media (max-width: 576px) {
+  .summary-card {
+    min-width: 160px;
+    padding: 0.8rem;
+  }
+
+  .summary-card h2 {
+    font-size: 1.1rem;
+  }
+
+  .profile-card,
+  .school-settings,
+  .branch-selector,
+  .year-selector,
+  .academic-controls {
+    width: 100%;
+  }
+
+  .alerts-table-container {
+    max-height: 180px;
+  }
+
+  .action-btn {
+    justify-content: center;
+  }
+
+  .sync-panel {
+           gap: 5px;
+        padding-bottom: 10px;
+  }
+
+  .btn-apply,
+  .btn-sync {
+    width: 100%;
+  }
+}

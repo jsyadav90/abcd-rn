@@ -16,10 +16,11 @@ const Sidebar = ({ collapsed }) => {
 
         {/* INVENTORY (HOVER) */}
         <li className="dropdown has-submenu">
-          <button type="button" className="menu-btn menu-link">
+          <Link type="button" className="menu-btn menu-link">
+           
             <span className="material-icons">inventory_2</span>
-            Inventory
-          </button>
+            Assets
+          </Link>
 
           <ul className="dropdown-menu">
             <li>
