@@ -1,9 +1,10 @@
 import { useMemo, useState } from "react";
+import "./Table.css"
 
 const Table = ({
   columns,
   data,
-  pageSize = 10,
+  pageSize = 20,
   showSearch = true,
 }) => {
   const [search, setSearch] = useState("");

@@ -1,7 +1,83 @@
 import React from "react";
+import Table from "../../components/Table/Table.jsx";
 import "./Deshboard.css"
 import { Link } from "react-router-dom";
 const Dashboard = () => {
+
+
+
+  
+  const alerts = [
+    {
+      itemName: "HP LaserJet Pro 4200",
+      category: "Printer",
+      issue: "Low Ink Level",
+      issueType: "warning",
+      reportedOn: "16-Oct-2025",
+      status: "Pending",
+      statusType: "pending",
+    },
+    {
+      itemName: "Dell OptiPlex 3080",
+      category: "Desktop",
+      issue: "Warranty Expiring Soon",
+      issueType: "danger",
+      reportedOn: "15-Oct-2025",
+      status: "In Process",
+      statusType: "active",
+    },
+    {
+      itemName: "Cisco Switch 2960",
+      category: "Networking",
+      issue: "Device Down",
+      issueType: "critical",
+      reportedOn: "18-Oct-2025",
+      status: "Critical",
+      statusType: "critical",
+    },
+    {
+      itemName: "HP EliteBook 850",
+      category: "Laptop",
+      issue: "Battery Health Moderate",
+      issueType: "info",
+      reportedOn: "17-Oct-2025",
+      status: "Resolved",
+      statusType: "resolved",
+    },
+    {
+      itemName: "Projector EPSON X500",
+      category: "Peripheral",
+      issue: "Lamp Replacement Due",
+      issueType: "danger",
+      reportedOn: "14-Oct-2025",
+      status: "Pending",
+      statusType: "pending",
+    },
+  ];
+
+  const columns = [
+    { header: "Item Name", key: "itemName" },
+    { header: "Category", key: "category" },
+    {
+      header: "Issue",
+      render: (row) => (
+        <span className={`tag ${row.issueType}`}>
+          {row.issue}
+        </span>
+      ),
+    },
+    { header: "Reported On", key: "reportedOn" },
+    {
+      header: "Status",
+      render: (row) => (
+        <span className={`status ${row.statusType}`}>
+          {row.status}
+        </span>
+      ),
+    },
+  ];
+
+  
   return (
   <>
     
@@ -168,7 +244,7 @@ const Dashboard = () => {
       <section className="alerts-section">
         <h3><i className="fas fa-bell"></i> Alerts & Warnings</h3>
 
-        <div className="alerts-table-container">
+        {/* <div className="alerts-table-container">
           <table className="alerts-table">
             <thead>
               <tr>
@@ -217,7 +293,11 @@ const Dashboard = () => {
               </tr>
             </tbody>
           </table>
-        </div>
+        </div> */}
+
+        <div className="alerts-table-container">
+      <Table columns={columns} data={alerts} showSearch = "false"/>
+    </div>
       </section>
     
   </>

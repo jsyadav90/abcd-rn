@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Table from "../../components/Table/Table.jsx";
 import "./Users.css";
+import AddNewButton from "../../buttons/AddNewButton.jsx";
 
 const Users = () => {
   const navigate = useNavigate();
@@ -75,12 +76,15 @@ const Users = () => {
           <span className="material-icons">filter_list</span> Filter
         </button>
 
+         {/*
         <button
           className="btn add-btn"
           onClick={() => navigate("/add-user")}
         >
           <span className="material-icons">person_add</span> Add User
-        </button>
+        </button>  */}
+        
+        <AddNewButton label="User" className="btn add-btn" onClick={() => navigate("/add-user")}/>
 
         <button className="btn export-btn">
           <span className="material-icons">file_download</span> Export

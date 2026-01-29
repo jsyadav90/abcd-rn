@@ -1,8 +1,23 @@
 import { Link, useNavigate } from "react-router-dom";
+import { useState, useRef, useEffect } from "react";
 import "./Sidebar.css";
 
 const Sidebar = ({ collapsed }) => {
   const navigate = useNavigate();
+  const [userOpen, setUserOpen] = useState(false);
+  const userRef = useRef(null);
+
+  // Close when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (userRef.current && !userRef.current.contains(e.target)) {
+        setUserOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   return (
     <nav className={collapsed ? "menu-bar collapsed" : "menu-bar"}>
@@ -73,22 +88,33 @@ const Sidebar = ({ collapsed }) => {
       </ul>
 
       {/* USER DETAILS (HOVER) */}
-      <div className="user-details">
-        <button className="user-toggle">
+       <div
+        ref={userRef}
+        className={`user-details ${userOpen ? "active" : ""}`}
+      >
+        <button
+          className="user-toggle"
+          onClick={() => setUserOpen((prev) => !prev)}
+        >
           <span className="material-icons">account_circle</span>
           John Doe
         </button>
 
         <div className="user-panel">
-          <button onClick={() => navigate("/profile")}>
+          <button
+            onClick={() => {
+              navigate("/profile");
+              setUserOpen(false);
+            }}
+          >
             <span className="material-icons">person</span> Profile
           </button>
 
-          <button>
+          <button onClick={() => setUserOpen(false)}>
             <span className="material-icons">image</span> Change Image
           </button>
 
-          <button>
+          <button onClick={() => setUserOpen(false)}>
             <span className="material-icons">logout</span> Logout
           </button>
         </div>
