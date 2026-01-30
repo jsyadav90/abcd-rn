@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Table from "../../components/Table/Table.jsx";
 import "./Users.css";
@@ -9,14 +9,9 @@ import { fetchUsers } from "../../services/userApi";
 const Users = () => {
 
   const navigate = useNavigate();
-
+  
   const [showFilters, setShowFilters] = useState(false);
  
-    const [allusers, setAllUsers] = useState([]);
-
-  useEffect(() => {
-    fetchUsers().then(setAllUsers);
-  }, []);
 
 
   const users = [
@@ -129,7 +124,7 @@ const Users = () => {
 
       {/* TABLE */}
       <div className="table-container">
-        <Table columns={columns} data={allusers} />
+        <Table columns={columns} data={users} />
       </div>
     </section>
   );
