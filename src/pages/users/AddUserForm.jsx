@@ -18,20 +18,23 @@ const AddUserForm = ({ onClose, onSave }) => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Form submitted:", formData);
-    onSave(formData);
+  const handleSubmit = async (e) => {
+  e.preventDefault();
 
-     setFormData({
-       userId: "",
-    name: "",
-    designation: "",
-    phone_no: "",
-    email: "",
-    role: "user",
-    })
-  };
+  try {
+    await onSave(formData);
+    setFormData({
+      userId: "",
+      name: "",
+      designation: "",
+      phone_no: "",
+      email: "",
+      role: "user",
+    });
+  } catch (err) {
+    console.error(err);
+  }
+};
 
   return (
     <Form

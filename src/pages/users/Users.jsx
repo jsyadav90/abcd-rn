@@ -3,8 +3,9 @@ import { useNavigate } from "react-router-dom";
 import Table from "../../components/Table/Table.jsx";
 import "./Users.css";
 import AddNewButton from "../../buttons/AddNewButton.jsx";
+import { fetchUsers, addUser } from "../../services/userApi";
 
-import { fetchUsers } from "../../services/userApi";
+// import { fetchUsers } from "../../services/userApi";
 
 const Users = () => {
 
@@ -14,17 +15,19 @@ const Users = () => {
  
   const [allusers, setAllUsers] = useState([]);
 
-  
+
 
    const [showAdd, setShowAdd] = useState(false);
-  const handleSaveUser = (userData) => {
-    console.log("Saving user:", userData);
-
-    // later: API call here
-    // await createUser(userData)
-
+ const handleSaveUser = async (userData) => {
+  try {
+    const newUser = await addUser(userData);
+    setAllUsers((prev) => [newUser, ...prev]);
     setShowAdd(false);
-  };
+  } catch (error) {
+    console.error("Failed to add user", error);
+  }
+};
+
 
   useEffect(() => {
     fetchUsers().then(setAllUsers);

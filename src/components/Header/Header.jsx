@@ -14,7 +14,8 @@ const Header = ({ onToggleSidebar }) => {
         </button>
 
         <div className="logo">
-          <Link to="/">ABCD</Link>
+          {/* <Link to="/">ABCD</Link> */}
+          <Link to="/"></Link>
         </div>
       </div>
 
