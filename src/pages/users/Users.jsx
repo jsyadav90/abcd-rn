@@ -12,53 +12,61 @@ const Users = () => {
 
   const [showFilters, setShowFilters] = useState(false);
  
-    const [allusers, setAllUsers] = useState([]);
+  const [allusers, setAllUsers] = useState([]);
+
+  
+
+   const [showAdd, setShowAdd] = useState(false);
+  const handleSaveUser = (userData) => {
+    console.log("Saving user:", userData);
+
+    // later: API call here
+    // await createUser(userData)
+
+    setShowAdd(false);
+  };
 
   useEffect(() => {
     fetchUsers().then(setAllUsers);
   }, []);
 
 
-  const users = [
-    {
-      id: "U001",
-      name: "John Doe",
-      designation: "Principal",
-      department: "Admin",
-      email: "john.doe@example.com",
-      phone: "9876543210",
-      role: "Admin",
-      status: "Active",
-      remarks: "Excellent leadership",
-    },
-    {
-      id: "U002",
-      name: "Jane Smith",
-      designation: "Teacher",
-      department: "Teaching",
-      email: "jane.smith@example.com",
-      phone: "9876543211",
-      role: "Teacher",
-      status: "Inactive",
-      remarks: "On maternity leave",
-    },
-  ];
+  // const users = [
+  //   {
+  //     id: "U001",
+  //     name: "John Doe",
+  //     designation: "Principal",
+  //     department: "Admin",
+  //     email: "john.doe@example.com",
+  //     phone: "9876543210",
+  //     role: "Admin",
+  //     status: "Active",
+  //     remarks: "Excellent leadership",
+  //   },
+  //   {
+  //     id: "U002",
+  //     name: "Jane Smith",
+  //     designation: "Teacher",
+  //     department: "Teaching",
+  //     email: "jane.smith@example.com",
+  //     phone: "9876543211",
+  //     role: "Teacher",
+  //     status: "Inactive",
+  //     remarks: "On maternity leave",
+  //   },
+  // ];
 
   const columns = [
-    { header: "User ID", key: "id" },
+    { header: "User ID", key: "userId" },
     { header: "Full Name", key: "name" },
     { header: "Designation", key: "designation" },
     { header: "Department", key: "department" },
     { header: "Email", key: "email" },
-    { header: "Phone no", key: "phone" },
+    { header: "Phone no", key: "phone_no" },
     { header: "Role", key: "role" },
     {
       header: "Status",
-      render: (row) => (
-        <span className={`status ${row.status.toLowerCase()}`}>
-          {row.status}
-        </span>
-      ),
+      key: "status" 
     },
     { header: "Remarks", key: "remarks" },
     {
@@ -129,7 +137,13 @@ const Users = () => {
 
       {/* TABLE */}
       <div className="table-container">
-        <Table columns={columns} data={allusers} />
+        <Table
+  columns={columns}
+  data={allusers}
+  showSearch={true}
+  showPagination={true}
+/>
+
       </div>
     </section>
   );

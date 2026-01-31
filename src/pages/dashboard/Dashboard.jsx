@@ -296,7 +296,7 @@ const Dashboard = () => {
         </div> */}
 
         <div className="alerts-table-container">
-      <Table columns={columns} data={alerts} showSearch = "false"/>
+      <Table columns={columns} data={alerts} showSearch={false} showPagination={false}/>
     </div>
       </section>
     
