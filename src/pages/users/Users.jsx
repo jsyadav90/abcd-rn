@@ -3,61 +3,29 @@ import { useNavigate } from "react-router-dom";
 import Table from "../../components/Table/Table.jsx";
 import "./Users.css";
 import AddNewButton from "../../buttons/AddNewButton.jsx";
-import { fetchUsers, addUser } from "../../services/userApi";
+import { fetchUsers, deleteUser } from "../../services/userApi";
+import DeleteButton from "../../buttons/DeleteButton.jsx";
+import { exportToCSV } from "../../utils/exportToCSV";
 
-// import { fetchUsers } from "../../services/userApi";
 
 const Users = () => {
-
   const navigate = useNavigate();
-
   const [showFilters, setShowFilters] = useState(false);
- 
-  const [allusers, setAllUsers] = useState([]);
-
-
-
-   const [showAdd, setShowAdd] = useState(false);
- const handleSaveUser = async (userData) => {
-  try {
-    const newUser = await addUser(userData);
-    setAllUsers((prev) => [newUser, ...prev]);
-    setShowAdd(false);
-  } catch (error) {
-    console.error("Failed to add user", error);
-  }
-};
-
+  const [allUsers, setAllUsers] = useState([]);
+  const [selectedRows, setSelectedRows] = useState([]); // parent state for bulk delete
 
   useEffect(() => {
-    fetchUsers().then(setAllUsers);
+    const loadUsers = async () => {
+      try {
+        const data = await fetchUsers();
+        setAllUsers(data);
+      } catch (error) {
+        console.error("Failed to fetch users", error);
+      }
+    };
+
+    loadUsers();
   }, []);
-
-
-  // const users = [
-  //   {
-  //     id: "U001",
-  //     name: "John Doe",
-  //     designation: "Principal",
-  //     department: "Admin",
-  //     email: "john.doe@example.com",
-  //     phone: "9876543210",
-  //     role: "Admin",
-  //     status: "Active",
-  //     remarks: "Excellent leadership",
-  //   },
-  //   {
-  //     id: "U002",
-  //     name: "Jane Smith",
-  //     designation: "Teacher",
-  //     department: "Teaching",
-  //     email: "jane.smith@example.com",
-  //     phone: "9876543211",
-  //     role: "Teacher",
-  //     status: "Inactive",
-  //     remarks: "On maternity leave",
-  //   },
-  // ];
 
   const columns = [
     { header: "User ID", key: "userId" },
@@ -67,20 +35,40 @@ const Users = () => {
     { header: "Email", key: "email" },
     { header: "Phone no", key: "phone_no" },
     { header: "Role", key: "role" },
-    {
-      header: "Status",
-      key: "status" 
-    },
+    { header: "Status", key: "status" },
     { header: "Remarks", key: "remarks" },
     {
       header: "Actions",
-      render: () => (
+      render: (row) => (
         <div className="action-buttons">
-          <button className="edit-btn">
+          <button
+            className="edit-btn"
+            onClick={() => navigate(`/edit-user/${row._id}`)}
+          >
             <span className="material-icons">edit</span>
           </button>
-          <button className="delete-btn">
-            <span className="material-icons">delete</span>
+
+          <button
+            className="delete-btn"
+            onClick={async () => {
+              if (
+                window.confirm("Are you sure you want to delete this user?")
+              ) {
+                try {
+                  await deleteUser(row._id);
+                  setAllUsers((prev) => prev.filter((u) => u._id !== row._id));
+                  // remove from selectedRows if it was selected
+                  setSelectedRows((prev) =>
+                    prev.filter((id) => id !== row._id)
+                  );
+                } catch (err) {
+                  console.error("Failed to delete user", err);
+                  alert("Delete failed: " + err.message);
+                }
+              }
+            }}
+          >
+            <span className="material-icons ">delete</span>
           </button>
         </div>
       ),
@@ -98,23 +86,49 @@ const Users = () => {
           <span className="material-icons">filter_list</span> Filter
         </button>
 
-        {/*
-        <button
-          className="btn add-btn"
-          onClick={() => navigate("/add-user")}
-        >
-          <span className="material-icons">person_add</span> Add User
-        </button>  */}
-
         <AddNewButton
           label="User"
           className="btn add-btn"
           onClick={() => navigate("/add-user")}
         />
 
-        <button className="btn export-btn">
+        <button className="btn export-btn" 
+        onClick={() => exportToCSV(allUsers, "users.csv")}
+        // onClick={() => exportToCSV(selectedRows, "selected-users.csv")} disabled={!selectedRows.length}
+        
+        >
           <span className="material-icons">file_download</span> Export
         </button>
+
+        {/* Bulk Delete Button */}
+        {selectedRows.length > 0 && (
+
+          <DeleteButton
+            className="btn delete-btn"
+            onClick={async () => {
+              if (
+                window.confirm(
+                  `Are you sure you want to delete ${selectedRows.length} users?`
+                )
+              ) {
+                try {
+                  // delete all selected users
+                  await Promise.all(selectedRows.map((id) => deleteUser(id)));
+                  // remove deleted users from table state
+                  setAllUsers((prev) =>
+                    prev.filter((u) => !selectedRows.includes(u._id))
+                  );
+                  // clear selected rows
+                  setSelectedRows([]);
+                } catch (err) {
+                  console.error("Bulk delete failed", err);
+                  alert("Bulk delete failed");
+                }
+              }
+            }}
+          />
+          
+        )}
       </div>
 
       {/* FILTERS */}
@@ -125,7 +139,7 @@ const Users = () => {
             <select className="filter-select">
               <option>All</option>
               <option>Admin</option>
-              <option>Teacher</option>
+              <option>User</option>
             </select>
 
             <label>Status:</label>
@@ -141,12 +155,12 @@ const Users = () => {
       {/* TABLE */}
       <div className="table-container">
         <Table
-  columns={columns}
-  data={allusers}
-  showSearch={true}
-  showPagination={true}
-/>
-
+          columns={columns}
+          data={allUsers}
+          showSearch={true}
+          showPagination={true}
+          onSelectionChange={setSelectedRows} // important!
+        />
       </div>
     </section>
   );

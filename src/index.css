@@ -26,3 +26,7 @@
   --spacing: 1rem;
   --radius: 0.5rem;
 }
+
+.delete-btn{
+  background-color: red;
+}

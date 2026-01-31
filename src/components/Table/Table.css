@@ -6,7 +6,6 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   display: flex;
   flex-direction: column;
-
   max-height: 90vh; 
   overflow: hidden;
 }
@@ -20,7 +19,7 @@
   border-bottom: 1px solid #ddd;
   padding-bottom: 0.8rem;
 
-  /* Sticky on top */
+  
   position: sticky;
   top: 0;
   background: #fff;
@@ -101,6 +100,37 @@
   width: 200px;
 }
 /* ===== Table Container (Scrollable Body) ===== */
+
+.table-option{
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+
+.table-search{
+  padding: 5px;
+  font-size: 1rem;
+  border: 1px solid;
+  border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  outline: none;
+}
+
+.pagination{
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.pagination button{
+  padding: 5px;
+  font-size: 1rem;
+}
+
 .table-container {
   overflow-y: auto;
   overflow-x: auto;

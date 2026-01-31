@@ -42,3 +42,12 @@ button.primary {
   border-radius: 4px;
   cursor: pointer;
 }
+
+
+.form-group textarea {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: vertical;
+  font-family: inherit;
+}

@@ -1,0 +1,24 @@
+.form-title{
+    text-align: center;
+    font-size: 2rem;
+    font-weight: bold;
+    text-decoration: underline;
+    text-underline-offset: 10px;
+}
+
+.form-fields {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+/* Tablet */
+@media (max-width: 900px) {
+  .form-fields {
+    grid-template-columns: 1fr;
+  }
+}
+
+.delete-btn{
+    background-color: red;
+}

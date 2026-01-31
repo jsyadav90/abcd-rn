@@ -10,6 +10,7 @@ const SelectField = ({ label, name, value, onChange, options }) => {
           </option>
         ))}
       </select>
+      
     </div>
   );
 };
