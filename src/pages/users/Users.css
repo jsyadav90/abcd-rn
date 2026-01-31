@@ -1,3 +1,18 @@
+/* 
+.page-title h2{
+  position: fixed;
+  top:30px ;
+  right: calc(50%);
+  text-align: center;
+  margin-bottom: 5px;
+  z-index: 999999;
+  color: #34D399    ;
+}
+
+.user-section{
+  padding:1.5rem ;
+}
+
 .form-title{
     text-align: center;
     font-size: 2rem;
@@ -12,7 +27,7 @@
   gap: 16px;
 }
 
-/* Tablet */
+
 @media (max-width: 900px) {
   .form-fields {
     grid-template-columns: 1fr;
@@ -21,4 +36,90 @@
 
 .delete-btn{
     background-color: red;
+}
+
+.table-actions {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 0.8rem;
+  position: sticky;
+  top: 0;
+  background: #fff;
+  z-index: 20;
+}
+
+.table-section {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  max-height: 90vh; 
+  overflow: hidden;
+} */
+
+
+.users-actions {
+  margin-bottom: 1rem;
+}
+
+.users-actions__bar {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 0.8rem;
+  position: sticky;
+  top: 0;
+  background: #fff;
+  z-index: 20;
+}
+
+.users-actions__btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0.5rem 0.8rem;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  color: #fff;
+}
+
+.users-actions__btn--filter {
+  background: #6c757d;
+}
+
+.users-actions__btn--add {
+  background: #007bff;
+}
+
+.users-actions__btn--export {
+  background: #28a745;
+}
+
+.users-actions__btn--delete {
+  background: #dc3545;
+}
+
+.users-filters {
+  margin-top: 0.75rem;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: #f8f9fa;
+}
+
+.users-filters__row {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.users-table {
+  margin-top: 1rem;
 }

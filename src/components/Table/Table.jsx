@@ -1,5 +1,7 @@
 import { useMemo, useState, useEffect } from "react";
 import "./Table.css";
+import TableSearch from "./TableSearch";
+import TablePagination from "./TablePagination";
 
 const Table = ({
   columns,
@@ -11,16 +13,11 @@ const Table = ({
 }) => {
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
-  const [selectedRows, setSelectedRows] = useState([]); // ONLY _id here
+  const [selectedRows, setSelectedRows] = useState([]);
 
-  // inform parent about selection
   useEffect(() => {
-    if (typeof onSelectionChange === "function") {
-      onSelectionChange(selectedRows);
-    }
+    onSelectionChange?.(selectedRows);
   }, [selectedRows, onSelectionChange]);
-
-  
 
   const filteredData = useMemo(() => {
     if (!showSearch || !search) return data;
@@ -28,6 +25,23 @@ const Table = ({
       Object.values(row).join(" ").toLowerCase().includes(search.toLowerCase()),
     );
   }, [search, data, showSearch]);
+
+  const highlightText = (text, search) => {
+    if (!search) return text;
+
+    const regex = new RegExp(`(${search})`, "gi");
+    return String(text)
+      .split(regex)
+      .map((part, index) =>
+        part.toLowerCase() === search.toLowerCase() ? (
+          <span key={index} className="highlight">
+            {part}
+          </span>
+        ) : (
+          part
+        ),
+      );
+  };
 
   const totalPages = showPagination
     ? Math.ceil(filteredData.length / pageSize)
@@ -37,7 +51,6 @@ const Table = ({
     ? filteredData.slice((page - 1) * pageSize, page * pageSize)
     : filteredData;
 
-  // toggle single row
   const toggleRow = (row) => {
     setSelectedRows((prev) =>
       prev.includes(row._id)
@@ -46,97 +59,153 @@ const Table = ({
     );
   };
 
-  // toggle all rows on current page
   const toggleAll = (checked) => {
-    if (checked) {
-      const pageIds = tableData.map((row) => row._id);
-      setSelectedRows((prev) => [...new Set([...prev, ...pageIds])]);
-    } else {
-      const pageIds = tableData.map((row) => row._id);
-      setSelectedRows((prev) => prev.filter((id) => !pageIds.includes(id)));
-    }
+    const pageIds = tableData.map((row) => row._id);
+    setSelectedRows((prev) =>
+      checked
+        ? [...new Set([...prev, ...pageIds])]
+        : prev.filter((id) => !pageIds.includes(id)),
+    );
   };
 
   return (
-    <>
-      <div className="table-option">
+    <div className="table">
+      <div className="table__options">
         {showSearch && (
-          <input
-            className="table-search"
-            placeholder="Search..."
+          <TableSearch
             value={search}
-            onChange={(e) => {
-              setSearch(e.target.value);
+            onChange={(val) => {
+              setSearch(val);
               setPage(1);
             }}
           />
         )}
 
         {showPagination && (
-          <div className="pagination">
-            <button disabled={page === 1} onClick={() => setPage((p) => p - 1)}>
-              Prev
-            </button>
-            <span>
-              Page {page} of {totalPages || 1}
-            </span>
-            <button
-              disabled={page === totalPages || totalPages === 0}
-              onClick={() => setPage((p) => p + 1)}
-            >
-              Next
-            </button>
-          </div>
+          <TablePagination
+            className="table-pagination"
+            page={page}
+            totalPages={totalPages}
+            onPrev={() => setPage(page - 1)}
+            onNext={() => setPage(page + 1)}
+          />
         )}
       </div>
 
-      <table className="data-table">
-        <thead>
-          <tr>
-            <th>
-              <input
-                type="checkbox"
-                onChange={(e) => toggleAll(e.target.checked)}
-                checked={
-                  tableData.length > 0 &&
-                  tableData.every((row) => selectedRows.includes(row._id))
-                }
-              />
-            </th>
-
-            {columns.map((col, index) => (
-              <th key={index}>{col.header}</th>
-            ))}
-          </tr>
-        </thead>
-
-        <tbody>
-          {tableData.map((row) => (
-            <tr key={row._id}>
-              <td>
-                <input
-                  type="checkbox"
-                  checked={selectedRows.includes(row._id)}
-                  onChange={() => toggleRow(row)}
-                />
-              </td>
-
+      <div className="table__container">
+        <table className="table__data">
+          <thead>
+            <tr>
+              <th className="table__checkbox">
+                <input type="checkbox" />
+              </th>
               {columns.map((col, i) => (
-                <td key={i}>{col.render ? col.render(row) : row[col.key]}</td>
+                <th key={i}>{col.header}</th>
               ))}
             </tr>
-          ))}
+          </thead>
 
-          {tableData.length === 0 && (
-            <tr>
-              <td colSpan={columns.length + 1} align="center">
-                No data found
-              </td>
-            </tr>
-          )}
-        </tbody>
-      </table>
-    </>
+          <tbody>
+            {tableData.map((row) => (
+              <tr
+                key={row._id}
+                className={
+                  selectedRows.includes(row._id)
+                    ? "table__row table__row--selected"
+                    : "table__row"
+                }
+              >
+                <td>
+                  <input
+                    type="checkbox"
+                    checked={selectedRows.includes(row._id)}
+                    onChange={() => toggleRow(row)}
+                  />
+                </td>
+
+                {columns.map((col, i) => (
+                  <td key={i}>
+                    {col.render
+                      ? col.render(row)
+                      : highlightText(row[col.key], search)}
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    // <div className="table-section">
+    //   <div className="table-option">
+    //     {showSearch && (
+    //       <TableSearch
+    //         value={search}
+    //         onChange={(val) => {
+    //           setSearch(val);
+    //           setPage(1);
+    //         }}
+    //       />
+    //     )}
+
+    //     {showPagination && (
+    //       <TablePagination
+    //         page={page}
+    //         totalPages={totalPages}
+    //         onPrev={() => setPage(page - 1)}
+    //         onNext={() => setPage(page + 1)}
+    //       />
+    //     )}
+    //   </div>
+
+    //     <table className="data-table">
+    //       <thead>
+    //         <tr>
+    //           <th>
+    //             <input
+    //               type="checkbox"
+    //               onChange={(e) => toggleAll(e.target.checked)}
+    //               checked={
+    //                 tableData.length > 0 &&
+    //                 tableData.every((row) =>
+    //                   selectedRows.includes(row._id)
+    //                 )
+    //               }
+    //             />
+    //           </th>
+    //           {columns.map((col, i) => (
+    //             <th key={i}>{col.header}</th>
+    //           ))}
+    //         </tr>
+    //       </thead>
+
+    //       <tbody>
+    //         {tableData.map((row) => (
+    //           <tr
+    //             key={row._id}
+    //             className={
+    //               selectedRows.includes(row._id) ? "selected" : ""
+    //             }
+    //           >
+    //             <td>
+    //               <input
+    //                 type="checkbox"
+    //                 checked={selectedRows.includes(row._id)}
+    //                 onChange={() => toggleRow(row)}
+    //               />
+    //             </td>
+    //             {columns.map((col, i) => (
+    //               <td key={i}>
+    //                 {col.render ? col.render(row) : row[col.key]}
+    //               </td>
+    //             ))}
+    //           </tr>
+    //         ))}
+    //       </tbody>
+    //     </table>
+
+    // </div>
   );
 };
 

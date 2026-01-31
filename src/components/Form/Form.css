@@ -1,12 +1,17 @@
 .form-wrapper {
   background: #fff;
-  padding: 20px;
   border-radius: 8px;
   width: 100%;
 }
 
 .form-title {
   margin-bottom: 16px;
+  text-align: center;
+  text-decoration: underline;
+  text-underline-offset: 5px;
+  font-weight: bold;
+  color: var(--page-title-color);
+
 }
 
 .form-group {
@@ -50,4 +55,17 @@ button.primary {
   border-radius: 4px;
   resize: vertical;
   font-family: inherit;
+}
+
+.form-fields {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+/* Tablet */
+@media (max-width: 900px) {
+  .form-fields {
+    grid-template-columns: 1fr;
+  }
 }

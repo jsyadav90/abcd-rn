@@ -7,7 +7,6 @@ import { fetchUsers, deleteUser } from "../../services/userApi";
 import DeleteButton from "../../buttons/DeleteButton.jsx";
 import { exportToCSV } from "../../utils/exportToCSV";
 
-
 const Users = () => {
   const navigate = useNavigate();
   const [showFilters, setShowFilters] = useState(false);
@@ -59,7 +58,7 @@ const Users = () => {
                   setAllUsers((prev) => prev.filter((u) => u._id !== row._id));
                   // remove from selectedRows if it was selected
                   setSelectedRows((prev) =>
-                    prev.filter((id) => id !== row._id)
+                    prev.filter((id) => id !== row._id),
                   );
                 } catch (err) {
                   console.error("Failed to delete user", err);
@@ -76,83 +75,171 @@ const Users = () => {
   ];
 
   return (
-    <section className="table-section">
-      {/* ACTION BAR */}
-      <div className="table-actions">
-        <button
-          className="btn filter-btn"
-          onClick={() => setShowFilters(!showFilters)}
-        >
-          <span className="material-icons">filter_list</span> Filter
-        </button>
+    <>
+      <div className="users-page">
+        <div className="page-title">
+          <h2>Users</h2>
+        </div>
 
-        <AddNewButton
-          label="User"
-          className="btn add-btn"
-          onClick={() => navigate("/add-user")}
-        />
+        <section className="users-actions">
+          <div className="users-actions__bar">
+            <button
+              className="users-actions__btn users-actions__btn--filter"
+              onClick={() => setShowFilters(!showFilters)}
+            >
+              <span className="material-icons">filter_list</span> Filter
+            </button>
 
-        <button className="btn export-btn" 
-        onClick={() => exportToCSV(allUsers, "users.csv")}
-        // onClick={() => exportToCSV(selectedRows, "selected-users.csv")} disabled={!selectedRows.length}
-        
-        >
-          <span className="material-icons">file_download</span> Export
-        </button>
+            <AddNewButton
+              label="User"
+              className="users-actions__btn users-actions__btn--add"
+              onClick={() => navigate("/add-user")}
+            />
 
-        {/* Bulk Delete Button */}
-        {selectedRows.length > 0 && (
+            <button
+              className="users-actions__btn users-actions__btn--export"
+              onClick={() => exportToCSV(allUsers, "users.csv")}
+            >
+              <span className="material-icons">file_download</span> Export
+            </button>
 
-          <DeleteButton
-            className="btn delete-btn"
-            onClick={async () => {
-              if (
-                window.confirm(
-                  `Are you sure you want to delete ${selectedRows.length} users?`
-                )
-              ) {
-                try {
-                  // delete all selected users
-                  await Promise.all(selectedRows.map((id) => deleteUser(id)));
-                  // remove deleted users from table state
-                  setAllUsers((prev) =>
-                    prev.filter((u) => !selectedRows.includes(u._id))
-                  );
-                  // clear selected rows
-                  setSelectedRows([]);
-                } catch (err) {
-                  console.error("Bulk delete failed", err);
-                  alert("Bulk delete failed");
-                }
-              }
-            }}
+            {selectedRows.length > 0 && (
+              <DeleteButton
+                className="btn delete-btn"
+                onClick={async () => {
+                  if (
+                    window.confirm(
+                      `Are you sure you want to delete ${selectedRows.length} users?`,
+                    )
+                  ) {
+                    try {
+                      await Promise.all(
+                        selectedRows.map((id) => deleteUser(id)),
+                      );
+
+                      setAllUsers((prev) =>
+                        prev.filter((u) => !selectedRows.includes(u._id)),
+                      );
+
+                      setSelectedRows([]);
+                    } catch (err) {
+                      console.error("Bulk delete failed", err);
+                      alert("Bulk delete failed");
+                    }
+                  }
+                }}
+              />
+            )}
+          </div>
+
+          {showFilters && (
+            <div className="users-filters">
+              <div className="users-filters__row">
+                <label>Role:</label>
+                <select>
+                  <option>All</option>
+                  <option>Admin</option>
+                  <option>User</option>
+                </select>
+
+                <label>Status:</label>
+                <select>
+                  <option>All</option>
+                  <option>Active</option>
+                  <option>Inactive</option>
+                </select>
+              </div>
+            </div>
+          )}
+        </section>
+
+        <div className="users-table">
+          <Table
+            columns={columns}
+            data={allUsers}
+            showSearch
+            showPagination
+            onSelectionChange={setSelectedRows}
           />
-          
-        )}
+        </div>
       </div>
 
-      {/* FILTERS */}
-      {showFilters && (
-        <div className="column-filters">
-          <div className="filter-row">
-            <label>Role:</label>
-            <select className="filter-select">
-              <option>All</option>
-              <option>Admin</option>
-              <option>User</option>
-            </select>
+      {/* <div className="page-title">
+        <h2>Users</h2>
+      </div> */}
 
-            <label>Status:</label>
-            <select className="filter-select">
-              <option>All</option>
-              <option>Active</option>
-              <option>Inactive</option>
-            </select>
-          </div>
+      {/* 
+      <section className="page-btn">
+        <div className="table-actions">
+          <button
+            className="btn filter-btn"
+            onClick={() => setShowFilters(!showFilters)}
+          >
+            <span className="material-icons">filter_list</span> Filter
+          </button>
+
+          <AddNewButton
+            label="User"
+            className="btn add-btn"
+            onClick={() => navigate("/add-user")}
+          />
+
+          <button
+            className="btn export-btn"
+            onClick={() => exportToCSV(allUsers, "users.csv")}
+          >
+            <span className="material-icons">file_download</span> Export
+          </button>
+
+          {selectedRows.length > 0 && (
+            <DeleteButton
+              className="btn delete-btn"
+              onClick={async () => {
+                if (
+                  window.confirm(
+                    `Are you sure you want to delete ${selectedRows.length} users?`,
+                  )
+                ) {
+                  try {
+                    await Promise.all(selectedRows.map((id) => deleteUser(id)));
+
+                    setAllUsers((prev) =>
+                      prev.filter((u) => !selectedRows.includes(u._id)),
+                    );
+
+                    setSelectedRows([]);
+                  } catch (err) {
+                    console.error("Bulk delete failed", err);
+                    alert("Bulk delete failed");
+                  }
+                }
+              }}
+            />
+          )}
         </div>
-      )}
 
-      {/* TABLE */}
+        {showFilters && (
+          <div className="column-filters">
+            <div className="filter-row">
+              <label>Role:</label>
+              <select className="filter-select">
+                <option>All</option>
+                <option>Admin</option>
+                <option>User</option>
+              </select>
+
+              <label>Status:</label>
+              <select className="filter-select">
+                <option>All</option>
+                <option>Active</option>
+                <option>Inactive</option>
+              </select>
+            </div>
+          </div>
+        )}
+      </section>
+
+    
       <div className="table-container">
         <Table
           columns={columns}
@@ -161,9 +248,10 @@ const Users = () => {
           showPagination={true}
           onSelectionChange={setSelectedRows} // important!
         />
-      </div>
-    </section>
+      </div> */}
+    </>
   );
 };
 
 export default Users;
+// onClick={() => exportToCSV(selectedRows, "selected-users.csv")} disabled={!selectedRows.length}

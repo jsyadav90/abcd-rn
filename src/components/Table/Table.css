@@ -1,30 +1,4 @@
-    /* ===== Table Section ===== */
-.table-section {
-  background: #fff;
-  border-radius: 12px;
-  padding: 1.5rem;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-  display: flex;
-  flex-direction: column;
-  max-height: 90vh; 
-  overflow: hidden;
-}
-
-/* ===== Action Buttons ===== */
-.table-actions {
-  display: flex;
-  gap: 1rem;
-  margin-bottom: 1rem;
-  flex-wrap: wrap;
-  border-bottom: 1px solid #ddd;
-  padding-bottom: 0.8rem;
-
-  
-  position: sticky;
-  top: 0;
-  background: #fff;
-  z-index: 20;
-}
+/* 
 
 .btn {
   display: flex;
@@ -55,7 +29,7 @@
   background: #1e7e34;
 }
 
-/* ===== Column Filter Bar ===== */
+
 .column-filters {
   background: #f8f9fa;
   border: 1px solid #ddd;
@@ -64,9 +38,9 @@
   margin-bottom: 1rem;
   animation: fadeIn 0.3s ease;
 
-  /* Sticky under action buttons */
+  
   position: sticky;
-  top: 3.2rem; /* Slightly below .table-actions */
+  top: 3.2rem; 
   z-index: 15;
 }
 
@@ -99,7 +73,7 @@
 .filter-select[type="text"] {
   width: 200px;
 }
-/* ===== Table Container (Scrollable Body) ===== */
+
 
 .table-option{
   padding: 10px;
@@ -139,7 +113,7 @@
   border-radius: 8px;
 }
 
-/* ===== Table ===== */
+
 .data-table {
   width: 100%;
   border-collapse: collapse;
@@ -147,10 +121,10 @@
   font-size: 0.95rem;
 }
 
-/* Table Header (Sticky) */
+
 .data-table thead th {
   position: sticky;
-  top: -1px; /* below action buttons + filters */
+  top: -1px; 
   background: #f3f3f3;
   font-weight: 600;
   text-transform: uppercase;
@@ -169,8 +143,6 @@
   padding: 0.6rem;
   background-color: #155724;
 }
-thead th{
-}
 
 thead th:first-child,
 tbody td:first-child {
@@ -184,14 +156,6 @@ tbody td:last-child {
   text-align: center;
 }
 
-/* Alternate Rows */
-/* .data-table tbody tr:nth-child(even) {
-  background-color: #f2f2f2;
-}
-.data-table tbody tr:nth-child(odd) {
-  background-color: #ffffff;
-} */
-
 .data-table tbody tr.even-row {
   background-color: #f2f2f2;
 }
@@ -200,24 +164,23 @@ tbody td:last-child {
   background-color: #ffffff;
 }
 
-/* Highlight selected row */
+
 .data-table tbody tr.selected {
   background-color: #d4e9ff !important;
 }
 
-/* Hover Effect */
+
 .data-table tbody tr:hover {
   background-color: #e6f0ff;
   transition: background 0.3s ease;
 }
 
-/* ===== Selected Row ===== */
+
 .data-table tbody tr.selected {
   background-color: #cfe2ff !important;
   border-left: 4px solid #0d6efd;
 }
 
-/* ===== Status Badges ===== */
 .status {
   padding: 4px 8px;
   border-radius: 6px;
@@ -236,7 +199,7 @@ tbody td:last-child {
   border: 1px solid #f5c6cb;
 }
 
-/* ===== Action Buttons (Inside Table) ===== */
+
 .action-buttons {
   display: flex;
   justify-content: center;
@@ -262,11 +225,11 @@ tbody td:last-child {
   color: #007bff;
 }
 
-/* ===== Scrollbar Styling (Optional) ===== */
+
 .table-container {
-  flex: 1; /* Take remaining space */
+  flex: 1;
   overflow-y: auto !important;
-  overflow-x: auto !important; /* Only this can scroll */
+  overflow-x: auto !important; 
   max-height: 100%;
 }
 .table-container::-webkit-scrollbar {
@@ -281,7 +244,7 @@ tbody td:last-child {
   background: #999;
 }
 
-/* ===== Fade In Animation ===== */
+
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -291,4 +254,98 @@ tbody td:last-child {
     opacity: 1;
     transform: translateY(0);
   }
+} */
+
+
+
+
+
+.table {
+  background: #fff;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+}
+
+.table__options {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.6rem;
+  border-bottom: 1px solid #ddd;
+}
+
+.table__container {
+  overflow-x: auto;
+  max-height: 70vh;
+}
+
+.table__data {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 800px;
+}
+
+.table__data th,
+.table__data td {
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+.table__data thead th {
+  background: #f3f3f3;
+  position: sticky;
+  top: 0;
+  z-index: 5;
+}
+
+.table__row:hover {
+  background: #f1f5f9;
+}
+
+.table__row--selected {
+  background: #dbeafe;
+}
+
+.action-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 0.3rem;
+}
+
+.action-buttons button {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+
+
+
+.table-search{
+  padding: 5px;
+  font-size: 1rem;
+  border: 1px solid;
+  border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  outline: none;
+}
+
+.highlight {
+  background-color: #fff3cd;
+  padding: 2px 4px;
+  border-radius: 4px;
+}
+
+
+.pagination{
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.pagination button{
+  padding: 5px;
+  font-size: 1rem;
 }
