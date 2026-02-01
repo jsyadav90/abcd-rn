@@ -45,7 +45,7 @@ const Table = ({
           </span>
         ) : (
           part
-        )
+        ),
       );
   };
 
@@ -71,7 +71,7 @@ const Table = ({
         Object.values(row)
           .join(" ")
           .toLowerCase()
-          .includes(search.toLowerCase())
+          .includes(search.toLowerCase()),
       );
     }
 
@@ -85,9 +85,7 @@ const Table = ({
         if (bVal == null) return -1;
 
         if (typeof aVal === "number") {
-          return sortConfig.direction === "asc"
-            ? aVal - bVal
-            : bVal - aVal;
+          return sortConfig.direction === "asc" ? aVal - bVal : bVal - aVal;
         }
 
         return sortConfig.direction === "asc"
@@ -113,7 +111,7 @@ const Table = ({
     setSelectedRows((prev) =>
       prev.includes(row._id)
         ? prev.filter((id) => id !== row._id)
-        : [...prev, row._id]
+        : [...prev, row._id],
     );
   };
 
@@ -122,7 +120,7 @@ const Table = ({
     setSelectedRows((prev) =>
       checked
         ? [...new Set([...prev, ...pageIds])]
-        : prev.filter((id) => !pageIds.includes(id))
+        : prev.filter((id) => !pageIds.includes(id)),
     );
   };
 
@@ -162,9 +160,7 @@ const Table = ({
                   onChange={(e) => toggleAll(e.target.checked)}
                   checked={
                     tableData.length > 0 &&
-                    tableData.every((row) =>
-                      selectedRows.includes(row._id)
-                    )
+                    tableData.every((row) => selectedRows.includes(row._id))
                   }
                 />
               </th>

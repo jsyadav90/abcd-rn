@@ -4,12 +4,16 @@ const SelectField = ({ label, name, value, onChange, options }) => {
       <label>{label}</label>
 
       <select name={name} value={value} onChange={onChange}>
-        {options.map(opt => (
-          <option key={opt.value} value={opt.value}>
-            {opt.label}
-          </option>
-        ))}
-      </select>
+  {options.map((opt, index) => (
+    <option
+      key={`${opt.value}-${index}`}
+      value={opt.value}
+    >
+      {opt.label}
+    </option>
+  ))}
+</select>
+
       
     </div>
   );
