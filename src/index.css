@@ -24,11 +24,11 @@
   --font-family: "Segoe UI", Roboto, sans-serif;
   --spacing: 1rem;
   --radius: 0.5rem;
-  --page-title-color:#34d399;
+  --page-title-color: #34d399;
 }
 
-.main{
-  padding:1rem 1.5rem ;
+.main {
+  padding: 1rem 1.5rem;
   position: relative;
 }
 
@@ -42,6 +42,25 @@
   left: 50%;
 }
 
-.delete-btn{
+.delete-btn {
   background-color: red;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12.8px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  color: #fff;
+}
+
+.material-icons {
+  font-size: 1rem;
+}
+
+.delete-btn .material-icons{
+  color: red;
+}
+.edit-btn .material-icons{
+  color: green;
 }
