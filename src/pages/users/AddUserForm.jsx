@@ -112,7 +112,6 @@ const AddUserForm = ({ onSave, onClose, formData: initialData }) => {
               type="email"
               value={formData.email}
               onChange={handleChange}
-              required
             />
 
             <SelectField
