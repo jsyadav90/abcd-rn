@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import Table from "../../components/Table/Table.jsx";
 import "./Users.css";
 import { fetchUsers, deleteUser } from "../../services/userApi";
-import DeleteButton from "../../buttons/DeleteButton.jsx";
 import { exportToCSV } from "../../utils/exportToCSV";
 import Button from "../../buttons/Button.jsx";
 
