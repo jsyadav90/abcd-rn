@@ -12,9 +12,6 @@ const AddUserForm = ({ onSave, onClose, formData: initialData }) => {
     phone_no: "",
     email: "",
     role: "user",
-    canLogin: false,
-    username: "",
-    password: "",
     remarks: "",
   });
 
@@ -25,18 +22,18 @@ const AddUserForm = ({ onSave, onClose, formData: initialData }) => {
   }, [initialData]);
 
   // auto handle canLogin based on role
-  useEffect(() => {
-    if (formData.role === "admin" || formData.role === "super_admin") {
-      setFormData((prev) => ({ ...prev, canLogin: true }));
-    } else {
-      setFormData((prev) => ({
-        ...prev,
-        canLogin: false,
-        username: "",
-        password: "",
-      }));
-    }
-  }, [formData.role]);
+  // useEffect(() => {
+  //   if (formData.role === "admin" || formData.role === "super_admin") {
+  //     setFormData((prev) => ({ ...prev, canLogin: true }));
+  //   } else {
+  //     setFormData((prev) => ({
+  //       ...prev,
+  //       canLogin: false,
+  //       username: "",
+  //       password: "",
+  //     }));
+  //   }
+  // }, [formData.role]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -138,7 +135,7 @@ const AddUserForm = ({ onSave, onClose, formData: initialData }) => {
               ]}
             />
 
-            <SelectField
+            {/* <SelectField
               label="Can Login"
               name="canLogin"
               value={formData.canLogin ? "yes" : "no"}
@@ -155,9 +152,9 @@ const AddUserForm = ({ onSave, onClose, formData: initialData }) => {
               disabled={
                 formData.role === "admin" || formData.role === "super_admin"
               }
-            />
+            /> */}
 
-            {(formData.canLogin && formData.status=="active") && (
+            {/* {(formData.canLogin && formData.status=="active") && (
               <>
                 <InputField
                   label="Username"
@@ -176,7 +173,7 @@ const AddUserForm = ({ onSave, onClose, formData: initialData }) => {
                   required
                 />
               </>
-            )}
+            )} */}
           </div>
 
           <TextareaField

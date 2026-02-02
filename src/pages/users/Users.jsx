@@ -1,30 +1,140 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import Table from "../../components/Table/Table.jsx";
 import "./Users.css";
-import { fetchUsers, deleteUser } from "../../services/userApi";
+import {
+  fetchUsers,
+  deleteUser,
+  toggleUserLogin,
+} from "../../services/userApi";
 import { exportToCSV } from "../../utils/exportToCSV";
 import Button from "../../buttons/Button.jsx";
 
+/* ---------- Row Action Menu ---------- */
+const RowActions = ({
+  row,
+  navigate,
+  deleteUser,
+  onToggleLogin,
+  setAllUsers,
+  setSelectedRows,
+}) => {
+  const [open, setOpen] = useState(false);
+  const menuRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (menuRef.current && !menuRef.current.contains(e.target)) {
+        setOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const handleDelete = async () => {
+    setOpen(false);
+
+    const confirmed = window.confirm(
+      `Are you sure you want to delete this user?\n\nName: ${row.name}\nUser ID: ${row.userId}`,
+    );
+
+    if (!confirmed) return;
+
+    try {
+      await deleteUser(row._id);
+      setAllUsers((prev) => prev.filter((u) => u._id !== row._id));
+      setSelectedRows((prev) => prev.filter((id) => id !== row._id));
+    } catch (err) {
+      alert("Delete failed");
+    }
+  };
+
+  const handleToggle = () => {
+    setOpen(false);
+    onToggleLogin(row);
+  };
+
+  return (
+    <div className="row-actions" ref={menuRef}>
+      <button className="more-btn" onClick={() => setOpen((p) => !p)}>
+        <span className="material-icons">more_vert</span>
+      </button>
+
+      {open && (
+        <div className="actions-menu">
+          <button
+            className="menu-item"
+            onClick={() => {
+              setOpen(false);
+              navigate(`/edit-user/${row._id}`);
+            }}
+          >
+            <span className="material-icons">edit</span>
+            Edit
+          </button>
+
+          <button className="menu-item delete" onClick={handleDelete}>
+            <span className="material-icons">delete</span>
+            Delete
+          </button>
+
+          <button className="menu-item" onClick={handleToggle}>
+            <span className="material-icons">
+              {row.canLogin ? "lock" : "lock_open"}
+            </span>
+            {row.canLogin ? "Disable Login" : "Enable Login"}
+          </button>
+        </div>
+      )}
+    </div>
+  );
+};
+
+/* ---------- Users Page ---------- */
 const Users = () => {
   const navigate = useNavigate();
 
   const [showFilters, setShowFilters] = useState(false);
   const [allUsers, setAllUsers] = useState([]);
-  const [selectedRows, setSelectedRows] = useState([]); // stores selected user IDs
+  const [selectedRows, setSelectedRows] = useState([]);
+
+  const loadUsers = async () => {
+    try {
+      const data = await fetchUsers();
+      setAllUsers(data);
+    } catch (err) {
+      console.error("Failed to fetch users");
+    }
+  };
 
   useEffect(() => {
-    const loadUsers = async () => {
-      try {
-        const data = await fetchUsers();
-        setAllUsers(data);
-      } catch (error) {
-        console.error("Failed to fetch users", error);
-      }
-    };
-
     loadUsers();
   }, []);
+
+  /* ---------- Enable / Disable Login ---------- */
+  const handleToggleLogin = async (user) => {
+    const msg = user.canLogin
+      ? "User login will be disabled"
+      : "User login will be enabled";
+
+    const confirmed = window.confirm(msg);
+    if (!confirmed) return;
+
+    try {
+      const res = await toggleUserLogin(user._id);
+
+      alert(res.message);
+
+      setAllUsers((prev) =>
+        prev.map((u) =>
+          u._id === user._id ? { ...u, canLogin: res.canLogin } : u,
+        ),
+      );
+    } catch (err) {
+      alert(err.message);
+    }
+  };
 
   const columns = [
     { header: "User ID", key: "userId", sortable: true },
@@ -39,70 +149,30 @@ const Users = () => {
     {
       header: "Actions",
       render: (row) => (
-        <div className="action-buttons">
-          <button
-            className="edit-btn"
-            onClick={() => navigate(`/edit-user/${row._id}`)}
-          >
-            <span className="material-icons">edit</span>
-          </button>
-
-          <button
-            className="delete-btn"
-            onClick={async () => {
-              const confirmed = window.confirm(
-                `Are you sure you want to delete this user?\n\nName: ${row.name}\nUser ID: ${row.userId}`,
-              );
-
-              if (!confirmed) return;
-
-              try {
-                await deleteUser(row._id);
-
-                setAllUsers((prev) =>
-                  prev.filter((u) => u._id !== row._id),
-                );
-
-                setSelectedRows((prev) =>
-                  prev.filter((id) => id !== row._id),
-                );
-              } catch (err) {
-                alert("Delete failed: " + err.message);
-              }
-            }}
-          >
-            <span className="material-icons">delete</span>
-          </button>
-        </div>
+        <RowActions
+          row={row}
+          navigate={navigate}
+          deleteUser={deleteUser}
+          onToggleLogin={handleToggleLogin}
+          setAllUsers={setAllUsers}
+          setSelectedRows={setSelectedRows}
+        />
       ),
     },
   ];
 
   const handleBulkDelete = async () => {
-    const usersToDelete = allUsers.filter((u) =>
-      selectedRows.includes(u._id),
-    );
+    const usersToDelete = allUsers.filter((u) => selectedRows.includes(u._id));
 
-    const userListText = usersToDelete
-      .map((u) => `${u.name} (${u.userId})`)
-      .join("\n");
-
-    const confirmed = window.confirm(
-      `Are you sure you want to delete the following users?\n\n${userListText}`,
-    );
+    const confirmed = window.confirm(`Delete ${usersToDelete.length} users?`);
 
     if (!confirmed) return;
 
     try {
       await Promise.all(selectedRows.map((id) => deleteUser(id)));
-
-      setAllUsers((prev) =>
-        prev.filter((u) => !selectedRows.includes(u._id)),
-      );
-
+      setAllUsers((prev) => prev.filter((u) => !selectedRows.includes(u._id)));
       setSelectedRows([]);
-    } catch (err) {
-      console.error("Bulk delete failed", err);
+    } catch {
       alert("Bulk delete failed");
     }
   };
@@ -115,9 +185,15 @@ const Users = () => {
 
       <section className="users-actions">
         <div className="users-actions__bar">
-          
-          <Button label={ <> <span className="material-icons">filter_list</span> Filter </>} className="users-actions__btn users-actions__btn--filter"
-            onClick={() => setShowFilters(!showFilters)}/>
+          <Button
+            label={
+              <>
+                <span className="material-icons">filter_list</span> Filter
+              </>
+            }
+            className="users-actions__btn users-actions__btn--filter"
+            onClick={() => setShowFilters(!showFilters)}
+          />
 
           <Button
             label="+ Add New User"
@@ -125,8 +201,15 @@ const Users = () => {
             onClick={() => navigate("/add-user")}
           />
 
-          <Button  label= {<><span className="material-icons">file_download</span> Export</>} className="users-actions__btn users-actions__btn--export"
-            onClick={() => exportToCSV(allUsers, "users.csv")} />
+          <Button
+            label={
+              <>
+                <span className="material-icons">file_download</span> Export
+              </>
+            }
+            className="users-actions__btn users-actions__btn--export"
+            onClick={() => exportToCSV(allUsers, "users.csv")}
+          />
 
           {selectedRows.length > 0 && (
             <Button
@@ -136,26 +219,6 @@ const Users = () => {
             />
           )}
         </div>
-
-        {showFilters && (
-          <div className="users-filters">
-            <div className="users-filters__row">
-              <label>Role:</label>
-              <select>
-                <option>All</option>
-                <option>Admin</option>
-                <option>User</option>
-              </select>
-
-              <label>Status:</label>
-              <select>
-                <option>All</option>
-                <option>Active</option>
-                <option>Inactive</option>
-              </select>
-            </div>
-          </div>
-        )}
       </section>
 
       <div className="users-table">

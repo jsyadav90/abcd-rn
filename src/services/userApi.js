@@ -36,3 +36,21 @@ export const deleteUser = async (id) => {
   if (!res.ok) throw new Error("Failed to delete user");
   return res.json();
 };
+
+export const toggleUserLogin = async (id) => {
+  const res = await fetch(`${API_URL}/${id}/toggle-login`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  const data = await res.json();
+
+  if (!res.ok) {
+    // 👇 backend ka exact message throw karo
+    throw new Error(data.message || "Action not allowed");
+  }
+
+  return data;
+};
