@@ -79,7 +79,18 @@ const RowActions = ({
             Delete
           </button>
 
-          <button className="menu-item" onClick={handleToggle}>
+          <button
+            className="menu-item"
+            onClick={handleToggle}
+            disabled={row.status === "inactive"}
+            title={
+              row.status === "inactive"
+                ? "Login cannot be changed for inactive user"
+                : row.canLogin
+                  ? "Click to disable login"
+                  : "Click to enable login"
+            }
+          >
             <span className="material-icons">
               {row.canLogin ? "lock" : "lock_open"}
             </span>

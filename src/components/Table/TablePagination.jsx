@@ -4,7 +4,7 @@ const TablePagination = ({ page, totalPages, onPrev, onNext }) => {
   return (
     <div className="pagination">
       <button disabled={page === 1} onClick={onPrev}>
-        Prev
+        	&lt;
       </button>
 
       <span>
@@ -15,7 +15,7 @@ const TablePagination = ({ page, totalPages, onPrev, onNext }) => {
         disabled={page === totalPages || totalPages === 0}
         onClick={onNext}
       >
-        Next
+        &gt;
       </button>
     </div>
   );

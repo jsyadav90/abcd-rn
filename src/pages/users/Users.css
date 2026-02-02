@@ -111,3 +111,10 @@
 .menu-item .material-icons {
   font-size: 18px;
 }
+
+.menu-item:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  outline: none;
+  border: none;
+}
