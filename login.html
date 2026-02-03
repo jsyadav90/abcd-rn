@@ -4,189 +4,177 @@
   <meta charset="UTF-8" />
   <title>Login</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="login.css" />
+
   <style>
     * {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  font-family: Arial, Helvetica, sans-serif;
-}
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, Helvetica, sans-serif;
+    }
 
-body {
-  height: 100vh;
-  background: #f4f6f8;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+    body {
+      height: 100vh;
+      background: #f4f6f8;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
 
-.login-container {
-  width: 100%;
-  max-width: 400px;
-  padding: 20px;
-}
+    .login-container {
+      width: 100%;
+      max-width: 400px;
+      padding: 20px;
+    }
 
-.login-card {
-  background: #ffffff;
-  padding: 30px;
-  border-radius: 8px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-}
+    .login-card {
+      background: #ffffff;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
 
-.login-card h2 {
-  text-align: center;
-  margin-bottom: 8px;
-}
+    .login-card h2 {
+      text-align: center;
+      margin-bottom: 8px;
+    }
 
-.login-subtitle {
-  text-align: center;
-  color: #666;
-  margin-bottom: 25px;
-  font-size: 14px;
-}
+    .login-subtitle {
+      text-align: center;
+      color: #666;
+      margin-bottom: 25px;
+      font-size: 14px;
+    }
 
-.form-group {
-  margin-bottom: 18px;
-}
+    .form-group {
+      margin-bottom: 18px;
+    }
 
-.form-group label {
-  display: block;
-  margin-bottom: 6px;
-  font-size: 14px;
-  color: #333;
-}
+    .form-group label {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 14px;
+      color: #333;
+    }
 
-.form-group input {
-  width: 100%;
-  padding: 10px;
-  font-size: 14px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
+    .form-group input {
+      width: 100%;
+      padding: 10px;
+      font-size: 14px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
 
-.form-group input:focus {
-  outline: none;
-  border-color: #007bff;
-}
+    .login-btn {
+      width: 100%;
+      padding: 10px;
+      background: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      font-size: 15px;
+      cursor: pointer;
+    }
 
-.login-btn {
-  width: 100%;
-  padding: 10px;
-  background: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  font-size: 15px;
-  cursor: pointer;
-}
-
-.login-btn:hover {
-  background: #0056b3;
-}
-
-.error-message {
-  margin-top: 12px;
-  text-align: center;
-  color: red;
-  font-size: 13px;
-}
-
+    .error-message {
+      margin-top: 12px;
+      text-align: center;
+      color: red;
+      font-size: 13px;
+    }
   </style>
 </head>
 <body>
 
-  <div class="login-container">
-    <div class="login-card">
-      <h2>Login</h2>
-      <p class="login-subtitle">Sign in to continue</p>
+<script>
+  window.APP_CONFIG = {
+    API_BASE_URL: "http://localhost:5000/api"
+  };
+</script>
 
-      <form id="loginForm">
-        <div class="form-group">
-          <label for="email">Email</label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            placeholder="Enter your email"
-            required
-          />
-        </div>
+<div class="login-container">
+  <div class="login-card">
+    <h2>Login</h2>
+    <p class="login-subtitle">Sign in to continue</p>
 
-        <div class="form-group">
-          <label for="password">Password</label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            placeholder="Enter your password"
-            required
-          />
-        </div>
+    <form id="loginForm">
+      <div class="form-group">
+        <label>User ID</label>
+        <input
+          type="text"
+          id="userId"
+          placeholder="Enter your user ID"
+          required
+        />
+      </div>
 
-        <button type="submit" class="login-btn">Login</button>
+      <div class="form-group">
+        <label>Password</label>
+        <input
+          type="password"
+          id="password"
+          placeholder="Enter your password"
+          required
+        />
+      </div>
 
-        <p class="error-message" id="errorMessage"></p>
-      </form>
-    </div>
+      <button type="submit" class="login-btn">Login</button>
+      <p class="error-message" id="errorMessage"></p>
+    </form>
   </div>
+</div>
 
-  <script>
-    const loginForm = document.getElementById("loginForm");
-const errorMessage = document.getElementById("errorMessage");
+<script>
+  const loginForm = document.getElementById("loginForm");
+  const errorMessage = document.getElementById("errorMessage");
 
-loginForm.addEventListener("submit", async (e) => {
-  e.preventDefault();
-  errorMessage.textContent = "";
+  loginForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    errorMessage.textContent = "";
 
-  const username = document.getElementById("email").value.trim();
-  const password = document.getElementById("password").value.trim();
+    // UI me jo User ID hai wahi backend ka username hai
+    const username = document.getElementById("userId").value.trim().toLowerCase();
+    const password = document.getElementById("password").value.trim();
 
-  try {
-    const response = await fetch("http://localhost:5000/api/auth/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "include", // IMPORTANT for refreshToken cookie
-      body: JSON.stringify({
-        username,
-        password,
-        deviceId: localStorage.getItem("deviceId"),
-      }),
-    });
-
-    const data = await response.json();
-
-    if (!response.ok) {
-      errorMessage.textContent = data.message || "Login failed";
+    if (!username || !password) {
+      errorMessage.textContent = "Username and password are required";
       return;
     }
 
-    // save tokens
-    localStorage.setItem("accessToken", data.accessToken);
-    localStorage.setItem("deviceId", data.deviceId);
+    try {
+      const response = await fetch(
+        `${window.APP_CONFIG.API_BASE_URL}/auth/login`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+          body: JSON.stringify({
+            username: username, // ✅ EXACT backend field
+            password: password, // ✅ EXACT backend field
+          }),
+        }
+      );
 
-    // role-based redirect
-    if (data.user.role === "super_admin" || data.user.role === "admin") {
-      window.location.href = "/index.html";
-    } else {
-      window.location.href = "/index.html";
+      const data = await response.json();
+
+      if (!response.ok) {
+        errorMessage.textContent = data.message || "Invalid username or password";
+        return;
+      }
+
+      // Save access token
+      localStorage.setItem("accessToken", data.accessToken);
+
+      // Redirect to React app
+      window.location.href = "/";
+    } catch (err) {
+      console.error("Login error:", err);
+      errorMessage.textContent = "Server not reachable";
     }
-  } catch (error) {
-    console.error("Login error:", error);
-    errorMessage.textContent = "Server not reachable";
-  }
-});
-
-  </script>
+  });
+</script>
 
 </body>
 </html>
-
-
-<!-- fetch("/api/users", {
-  headers: {
-    Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-  },
-}); -->
