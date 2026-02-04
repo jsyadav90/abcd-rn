@@ -46,7 +46,7 @@ const RowActions = ({
       setAllUsers((prev) => prev.filter((u) => u._id !== row._id));
       setSelectedRows((prev) => prev.filter((id) => id !== row._id));
     } catch (err) {
-      alert("Delete failed");
+      alert(err.message);
     }
   };
 
@@ -172,21 +172,40 @@ const Users = () => {
     },
   ];
 
-  const handleBulkDelete = async () => {
-    const usersToDelete = allUsers.filter((u) => selectedRows.includes(u._id));
+const handleBulkDelete = async () => {
+  if (selectedRows.length === 0) return;
 
-    const confirmed = window.confirm(`Delete ${usersToDelete.length} users?`);
+  const confirmed = window.confirm(
+    `Delete ${selectedRows.length} users?`
+  );
+  if (!confirmed) return;
 
-    if (!confirmed) return;
+  const idsToDelete = [...selectedRows];
+  const deletedIds = [];
 
+  for (const id of idsToDelete) {
     try {
-      await Promise.all(selectedRows.map((id) => deleteUser(id)));
-      setAllUsers((prev) => prev.filter((u) => !selectedRows.includes(u._id)));
-      setSelectedRows([]);
-    } catch {
-      alert("Bulk delete failed");
+      await deleteUser(id);
+      deletedIds.push(id); // only successful deletes
+    } catch (error) {
+      // ignore "User not found"
+      if (error.message !== "User not found") {
+        console.error("DELETE ERROR:", error);
+        alert(error.message);
+      }
     }
-  };
+  }
+
+  // update table using only successfully deleted IDs
+  setAllUsers((prev) =>
+    prev.filter((user) => !deletedIds.includes(user._id))
+  );
+
+  // clear selection
+  setSelectedRows([]);
+};
+
+
 
   return (
     <div className="users-page">
@@ -222,7 +241,7 @@ const Users = () => {
             onClick={() => exportToCSV(allUsers, "users.csv")}
           />
 
-          {selectedRows.length > 0 && (
+          {selectedRows.length > 1 && (
             <Button
               label="Delete"
               className="delete-btn"

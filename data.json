@@ -9,7 +9,7 @@
     "remarks": "NA",
     "branch": "BBGS",
     "role": "user",
-    "status": "inactive",
+    "status": "active",
     "canLogin": false
   },
   {
@@ -22,7 +22,7 @@
     "remarks": "NA",
     "branch": "BBGS",
     "role": "user",
-    "status": "inactive",
+    "status": "active",
     "canLogin": false
   },
   {
@@ -35,7 +35,7 @@
     "remarks": "Senior staff",
     "branch": "BBGS",
     "role": "admin",
-    "status": "inactive",
+    "status": "active",
     "canLogin": false
   },
   {
@@ -48,7 +48,7 @@
     "remarks": "NA",
     "branch": "BBGS",
     "role": "user",
-    "status": "inactive",
+    "status": "active",
     "canLogin": false
   },
   {
@@ -61,7 +61,7 @@
     "remarks": "NA",
     "branch": "BBGS",
     "role": "user",
-    "status": "inactive",
+    "status": "active",
     "canLogin": false
   },
 
@@ -75,7 +75,7 @@
     "remarks": "Team lead",
     "branch": "BBGS",
     "role": "admin",
-    "status": "inactive",
+    "status": "active",
     "canLogin": false
   },
   {
@@ -88,7 +88,7 @@
     "remarks": "NA",
     "branch": "BBGS",
     "role": "user",
-    "status": "inactive",
+    "status": "active",
     "canLogin": false
   },
   {
@@ -101,7 +101,7 @@
     "remarks": "NA",
     "branch": "BBGS",
     "role": "user",
-    "status": "inactive",
+    "status": "active",
     "canLogin": false
   },
   {
@@ -114,7 +114,7 @@
     "remarks": "NA",
     "branch": "BBGS",
     "role": "super_admin",
-    "status": "inactive",
+    "status": "active",
     "canLogin": false
   },
   {
@@ -127,7 +127,7 @@
     "remarks": "NA",
     "branch": "BBGS",
     "role": "user",
-    "status": "inactive",
+    "status": "active",
     "canLogin": false
   },
 
@@ -141,7 +141,7 @@
     "remarks": "NA",
     "branch": "BBGS",
     "role": "user",
-    "status": "inactive",
+    "status": "active",
     "canLogin": false
   },
   {
@@ -154,7 +154,7 @@
     "remarks": "NA",
     "branch": "BBGS",
     "role": "admin",
-    "status": "inactive",
+    "status": "active",
     "canLogin": false
   },
   {
@@ -167,7 +167,7 @@
     "remarks": "NA",
     "branch": "BBGS",
     "role": "user",
-    "status": "inactive",
+    "status": "active",
     "canLogin": false
   },
   {
@@ -180,7 +180,7 @@
     "remarks": "NA",
     "branch": "BBGS",
     "role": "user",
-    "status": "inactive",
+    "status": "active",
     "canLogin": false
   },
   {
@@ -193,7 +193,7 @@
     "remarks": "Department head",
     "branch": "BBGS",
     "role": "admin",
-    "status": "inactive",
+    "status": "active",
     "canLogin": false
   },
 
@@ -207,7 +207,7 @@
     "remarks": "NA",
     "branch": "BBGS",
     "role": "user",
-    "status": "inactive",
+    "status": "active",
     "canLogin": false
   },
   {
@@ -220,7 +220,7 @@
     "remarks": "NA",
     "branch": "BBGS",
     "role": "user",
-    "status": "inactive",
+    "status": "active",
     "canLogin": false
   },
   {
@@ -233,7 +233,7 @@
     "remarks": "NA",
     "branch": "BBGS",
     "role": "user",
-    "status": "inactive",
+    "status": "active",
     "canLogin": false
   },
   {
@@ -246,7 +246,7 @@
     "remarks": "NA",
     "branch": "BBGS",
     "role": "user",
-    "status": "inactive",
+    "status": "active",
     "canLogin": false
   },
   {
@@ -259,7 +259,7 @@
     "remarks": "NA",
     "branch": "BBGS",
     "role": "super_admin",
-    "status": "inactive",
+    "status": "active",
     "canLogin": false
   },
 
@@ -273,7 +273,7 @@
     "remarks": "NA",
     "branch": "BBGS",
     "role": "user",
-    "status": "inactive",
+    "status": "active",
     "canLogin": false
   },
   {
@@ -286,7 +286,7 @@
     "remarks": "NA",
     "branch": "BBGS",
     "role": "user",
-    "status": "inactive",
+    "status": "active",
     "canLogin": false
   },
   {
@@ -299,7 +299,7 @@
     "remarks": "NA",
     "branch": "BBGS",
     "role": "user",
-    "status": "inactive",
+    "status": "active",
     "canLogin": false
   },
   {
@@ -312,7 +312,7 @@
     "remarks": "NA",
     "branch": "BBGS",
     "role": "admin",
-    "status": "inactive",
+    "status": "active",
     "canLogin": false
   },
   {
@@ -325,7 +325,7 @@
     "remarks": "NA",
     "branch": "BBGS",
     "role": "user",
-    "status": "inactive",
+    "status": "active",
     "canLogin": false
   },
 
@@ -339,7 +339,7 @@
     "remarks": "NA",
     "branch": "BBGS",
     "role": "user",
-    "status": "inactive",
+    "status": "active",
     "canLogin": false
   },
   {
@@ -352,7 +352,7 @@
     "remarks": "NA",
     "branch": "BBGS",
     "role": "user",
-    "status": "inactive",
+    "status": "active",
     "canLogin": false
   },
   {
@@ -365,7 +365,7 @@
     "remarks": "NA",
     "branch": "BBGS",
     "role": "admin",
-    "status": "inactive",
+    "status": "active",
     "canLogin": false
   },
   {
@@ -378,7 +378,7 @@
     "remarks": "NA",
     "branch": "BBGS",
     "role": "user",
-    "status": "inactive",
+    "status": "active",
     "canLogin": false
   },
   {
@@ -391,7 +391,7 @@
     "remarks": "Top management",
     "branch": "BBGS",
     "role": "super_admin",
-    "status": "inactive",
+    "status": "active",
     "canLogin": false
   }
 ]

@@ -1,13 +1,26 @@
 const API_URL = `${import.meta.env.VITE_API_URL}/api/users`;
 
 // 🔹 Fetch all users (protected)
+// export const fetchUsers = async () => {
+//   const res = await fetch(API_URL, {
+//     credentials: "include", // 🔴 REQUIRED
+//   });
+
+//   if (!res.ok) {
+//     throw new Error("Failed to fetch users");
+//   }
+
+//   return res.json();
+// };
+
+import { apiFetch } from "./apiFetch";
+
 export const fetchUsers = async () => {
-  const res = await fetch(API_URL, {
-    credentials: "include", // 🔴 REQUIRED
-  });
+  const res = await apiFetch(API_URL);
 
   if (!res.ok) {
-    throw new Error("Failed to fetch users");
+    const data = await res.json();
+    throw new Error(data.message || "Failed to fetch users");
   }
 
   return res.json();
@@ -68,17 +81,65 @@ export const updateUser = async (id, user) => {
 export const deleteUser = async (id) => {
   const res = await fetch(`${API_URL}/${id}`, {
     method: "DELETE",
-    credentials: "include", // 🔴 REQUIRED
+    credentials: "include",
   });
 
-  if (!res.ok) {
-    throw new Error("Failed to delete user");
+  let data = {};
+  try {
+    data = await res.json();
+  } catch (e) {
+    // ignore JSON parse errors
   }
 
-  return res.json();
+  if (!res.ok) {
+    const error = new Error(data.message || "Failed to delete user");
+    error.status = res.status; // 👈 attach manually
+    throw error;
+  }
+
+  return data;
 };
 
+
+
+// export const deleteUser = async (req, res) => {
+//   try {
+//     if (!req.user || !req.user.id) {
+//       return res.status(401).json({ message: "Unauthorized" });
+//     }
+
+//     // prevent self delete
+//     if (req.user.id.toString() === req.params.id.toString()) {
+//       return res
+//         .status(403)
+//         .json({ message: "You cannot delete your own account" });
+//     }
+
+//     const user = await User.findById(req.params.id);
+//     if (!user) {
+//       return res.status(404).json({ message: "User not found" });
+//     }
+
+//     if (user.role === "super_admin") {
+//       return res
+//         .status(403)
+//         .json({ message: "System super admin cannot be deleted" });
+//     }
+
+//     await UserLogin.findOneAndDelete({ user: user._id });
+//     await User.findByIdAndDelete(user._id);
+
+//     res.json({ message: "User deleted successfully" });
+//   } catch (err) {
+//     console.error("DELETE ERROR:", err);
+//     res.status(500).json({ message: err.message });
+//   }
+// };
+
+
 // 🔹 Enable / Disable login
+
+
 export const toggleUserLogin = async (id) => {
   const res = await fetch(`${API_URL}/${id}/toggle-login`, {
     method: "PATCH",
