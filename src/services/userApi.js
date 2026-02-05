@@ -15,25 +15,47 @@ const API_URL = `${import.meta.env.VITE_API_URL}/api/users`;
 
 import { apiFetch } from "./apiFetch";
 
+// export const fetchUsers = async () => {
+//   const res = await apiFetch(API_URL);
+
+//   if (!res.ok) {
+//     const data = await res.json();
+//     throw new Error(data.message || "Failed to fetch users");
+//   }
+
+//   return res.json();
+// };
+
 export const fetchUsers = async () => {
   const res = await apiFetch(API_URL);
-
-  if (!res.ok) {
-    const data = await res.json();
-    throw new Error(data.message || "Failed to fetch users");
-  }
-
+  if (!res.ok) throw new Error("Failed to fetch users");
   return res.json();
 };
 
 // 🔹 Add user (admin only)
+// export const addUser = async (user) => {
+//   const res = await fetch(API_URL, {
+//     method: "POST",
+//     headers: {
+//       "Content-Type": "application/json",
+//     },
+//     credentials: "include", // 🔴 REQUIRED
+//     body: JSON.stringify(user),
+//   });
+
+//   if (!res.ok) {
+//     const err = await res.json();
+//     throw new Error(err.message || "Failed to add user");
+//   }
+
+//   return res.json();
+// };
+
+
 export const addUser = async (user) => {
-  const res = await fetch(API_URL, {
+  const res = await apiFetch(API_URL, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    credentials: "include", // 🔴 REQUIRED
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify(user),
   });
 
@@ -44,6 +66,7 @@ export const addUser = async (user) => {
 
   return res.json();
 };
+
 
 // 🔹 Fetch single user
 export const fetchUserById = async (id) => {
@@ -78,27 +101,43 @@ export const updateUser = async (id, user) => {
 };
 
 // 🔹 Delete user
+
 export const deleteUser = async (id) => {
-  const res = await fetch(`${API_URL}/${id}`, {
+  const res = await apiFetch(`${API_URL}/${id}`, {
     method: "DELETE",
-    credentials: "include",
   });
 
-  let data = {};
-  try {
-    data = await res.json();
-  } catch (e) {
-    // ignore JSON parse errors
-  }
+  const data = await res.json();
 
   if (!res.ok) {
-    const error = new Error(data.message || "Failed to delete user");
-    error.status = res.status; // 👈 attach manually
+    const error = new Error(data.message || "Delete failed");
+    error.status = res.status;
     throw error;
   }
 
   return data;
 };
+// export const deleteUser = async (id) => {
+//   const res = await fetch(`${API_URL}/${id}`, {
+//     method: "DELETE",
+//     credentials: "include",
+//   });
+
+//   let data = {};
+//   try {
+//     data = await res.json();
+//   } catch (e) {
+//     // ignore JSON parse errors
+//   }
+
+//   if (!res.ok) {
+//     const error = new Error(data.message || "Failed to delete user");
+//     error.status = res.status; // 👈 attach manually
+//     throw error;
+//   }
+
+//   return data;
+// };
 
 
 
